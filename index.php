@@ -166,7 +166,7 @@ function register_new_company()
 
 	} else {
 	
-		echo 'New company successfully created.', "\n";
+		echo 'New company successfully created.';
 
 	}
 }
@@ -188,7 +188,7 @@ function register_new_employee()
 	if ( empty( $select_code_by_name_results )
 	OR $code != $select_code_by_name_results[ 'code' ] ) {
 		
-		echo 'Something is wrong with the new employee function.';
+		echo 'False';
 		
 	} else {
 	
@@ -196,9 +196,9 @@ function register_new_employee()
 			' INSERT INTO employees '
 			. ' VALUES ( '
 				. 'null, '
+				. $select_code_by_name_results[ 'id' ]
 				. " '$full_name', "
 				. " '$email', "
-				. $select_code_by_name_results[ 'id' ]
 			. ' )';
 	
 		db_query( $insert_new_employee_query );
@@ -225,7 +225,6 @@ function validate_company_pass()
 		
 	} else {
 		
-		// echo 'false';
 		echo $select_company_password_results;
 		
 	}
@@ -256,7 +255,7 @@ function pull_login_options()
 function get_employees_data()
 {
 	$company_name = sqlite_escape_string( $_POST[ 'company_name' ] );
-
+	
 	$select_company_employees_data_query =
 		' SELECT '
 			. ' employees.id as id, '
@@ -265,10 +264,8 @@ function get_employees_data()
 		. ' FROM '
 			. ' employees, companies '
 		. ' WHERE '
-			. ' employees.company_id = companies.id '
-		. ' AND '
 			. ' companies.company_name = ' . "'$company_name'";
-
+  
 	$select_company_employees_data_results = db_query( $select_company_employees_data_query );
 	if ( empty( $select_company_employees_data_results ) ) {
 
